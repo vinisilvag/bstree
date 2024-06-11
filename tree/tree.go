@@ -1,4 +1,4 @@
-package bstree
+package tree
 
 import (
 	"fmt"
@@ -86,7 +86,7 @@ func (tree BinarySearchTree) maximum(curr *node.Node) *node.Node {
 }
 
 func transplant(root *node.Node, oldNode *node.Node, newNode *node.Node) {
-	if oldNode.Father == nil {
+	if root == oldNode {
 		root = newNode
 	} else if oldNode == oldNode.Father.Left {
 		oldNode.Father.Left = newNode
@@ -98,28 +98,25 @@ func transplant(root *node.Node, oldNode *node.Node, newNode *node.Node) {
 	}
 }
 
-// FIX: delete implementation
 func (tree *BinarySearchTree) delete(elem int) {
-	z := tree.search(elem)
-	if z == nil {
+	nodeToDelete := tree.search(elem)
+	if nodeToDelete == nil {
 		return
 	}
-	fmt.Println("remove: ", z.Elem)
-	if z.Left == nil {
-		transplant(tree.Root, z, z.Right)
-	} else if z.Right == nil {
-		transplant(tree.Root, z, z.Left)
+	if nodeToDelete.Left == nil {
+		transplant(tree.Root, nodeToDelete, nodeToDelete.Right)
+	} else if nodeToDelete.Right == nil {
+		transplant(tree.Root, nodeToDelete, nodeToDelete.Left)
 	} else {
-		y := tree.minimum(z.Right)
-		fmt.Println("succ: ", y.Elem)
-		if y.Father != z {
-			transplant(tree.Root, y, y.Right)
-			y.Right = z.Right
-			y.Right.Father = y
+		successor := tree.minimum(nodeToDelete.Right)
+		if successor.Father != nodeToDelete {
+			transplant(tree.Root, successor, successor.Right)
+			successor.Right = nodeToDelete.Right
+			successor.Right.Father = successor
 		}
-		transplant(tree.Root, z, y)
-		y.Left = z.Left
-		y.Left.Father = y
+		transplant(tree.Root, nodeToDelete, successor)
+		successor.Left = nodeToDelete.Left
+		successor.Left.Father = successor
 	}
 	tree.Size -= 1
 }

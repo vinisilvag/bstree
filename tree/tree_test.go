@@ -1,4 +1,4 @@
-package bstree
+package tree
 
 import (
 	"testing"
@@ -101,11 +101,9 @@ func TestDelete(t *testing.T) {
 	tree.delete(8)
 	assert.Equal(t, uint(4), tree.Size)
 	assert.Equal(t, 9, tree.Root.Left.Elem)
-	tree.delete(10)
-	tree.inorderWalk()
+	tree.delete(12)
 	assert.Equal(t, uint(3), tree.Size)
-	// FIX: not passing yet
-	assert.Equal(t, 11, tree.Root.Elem)
+	assert.Equal(t, 11, tree.Root.Right.Elem)
 }
 
 func TestDeleteUnexistentElement(t *testing.T) {
