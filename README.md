@@ -1,8 +1,8 @@
 # bstree
 
-Esse repositório armazena uma implementação de Árvore Binária de Busca na linguagem Go.
+Esse repositório armazena uma implementação de Árvore Binária de Busca na linguagem de programação Go.
 
-Ele foi desenvolvido como sistema alvo para a criação de pipelines de CI/CD para as aulas práticas 5 e 6 da disciplina de Engenharia de Software 2.
+Ela foi desenvolvida como sistema alvo para a criação de pipelines de CI/CD para as aulas práticas 5 e 6 da disciplina de Engenharia de Software 2.
 
 ## Como executar
 
