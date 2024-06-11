@@ -7,46 +7,13 @@ on:
     branches: [ "main" ]
 
 jobs:
-  tests-linux:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
+  tests:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
-    - name: Set up Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: '1.22.3'
-
-    - name: Display Go version
-      run: go version
-
-    - name: Fetch dependencies
-      run: go mod download
-
-    - name: Run tests
-      run: go clean -testcache && go test -v ./...
-
-  tests-windows:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: '1.22.3'
-
-    - name: Display Go version
-      run: go version
-
-    - name: Fetch dependencies
-      run: go mod download
-
-    - name: Run tests
-      run: go clean -testcache && go test -v ./...
-
-  tests-macos:
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
+    
     steps:
     - uses: actions/checkout@v4
 
