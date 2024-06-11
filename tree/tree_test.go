@@ -90,7 +90,21 @@ func TestSearchUnexistentElement(t *testing.T) {
 	assert.Nil(t, tree.search(13))
 }
 
-func TestDelete(t *testing.T) {
+func TestDeleteLeaf(t *testing.T) {
+	tree := NewBinarySearchTree()
+	tree.insert(10)
+	tree.insert(12)
+	tree.insert(8)
+	tree.insert(9)
+	tree.insert(11)
+	tree.insert(13)
+	assert.Equal(t, uint(6), tree.Size)
+	tree.delete(9)
+	assert.Equal(t, uint(5), tree.Size)
+	assert.Nil(t, tree.Root.Left.Right)
+}
+
+func TestDeleteRootWithOneChild(t *testing.T) {
 	tree := NewBinarySearchTree()
 	tree.insert(10)
 	tree.insert(12)
@@ -98,12 +112,29 @@ func TestDelete(t *testing.T) {
 	tree.insert(9)
 	tree.insert(11)
 	assert.Equal(t, uint(5), tree.Size)
+	// Case #1
 	tree.delete(8)
 	assert.Equal(t, uint(4), tree.Size)
 	assert.Equal(t, 9, tree.Root.Left.Elem)
+	// Case #2
 	tree.delete(12)
 	assert.Equal(t, uint(3), tree.Size)
 	assert.Equal(t, 11, tree.Root.Right.Elem)
+}
+
+func TestDeleteSubTreeRoot(t *testing.T) {
+	tree := NewBinarySearchTree()
+	tree.insert(10)
+	tree.insert(12)
+	tree.insert(8)
+	tree.insert(9)
+	tree.insert(11)
+	tree.insert(13)
+	assert.Equal(t, uint(6), tree.Size)
+	tree.delete(12)
+	assert.Equal(t, uint(5), tree.Size)
+	assert.Equal(t, tree.Root.Right.Elem, 13)
+	assert.Equal(t, tree.Root.Right.Left.Elem, 11)
 }
 
 func TestDeleteUnexistentElement(t *testing.T) {
